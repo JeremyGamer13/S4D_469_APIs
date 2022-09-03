@@ -83,7 +83,7 @@ fs.readdir('./website/apis', async (err, folders) => {
                     res.header("Content-Type", 'text/html')
                     res.send(`
 <h1>${folder + " - " + file.replace(/\.\S+/gmi, "")}</h1>
-<p><small>This endpoint uses a <b>${pagePackage.pageType}</b> request</small></p>
+<p><small>This endpoint uses a <b>${String(pagePackage.pageType).toUpperCase()}</b> request</small></p>
 <br>
 ${documentationMeta.html != null ? documentationMeta.html : `<p>${String(documentationMeta.explanation).replaceAll("\n", "<br>")}</p>`}
 `)
