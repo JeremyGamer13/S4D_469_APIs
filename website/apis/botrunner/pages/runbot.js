@@ -20,5 +20,8 @@ module.exports.onPage = async (req, res, origin, isAnS4DUrl, bypassedS4DOriginCh
             "error": "This bot token is not a Discord Bot!",
             "serverError": false
         })
+        return
     }
+    res.status(200)
+    res.json({ "error": null })
 }
