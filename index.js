@@ -50,9 +50,10 @@ fs.readdir('./website/apis', async (err, folders) => {
         fs.readdir(`./website/apis/${folder}/pages`, async (err, files) => {
             if (err) throw err
             files.forEach(async file => {
-                console.log("Creating page:", `[HOST]/${folder}/${file.replace(/\.\S+/gmi, "")}`)
+                const pageName = file.replace(/\.\S+/gmi, "")
+                console.log("Creating page:", `[HOST]/${folder}/${pageName}`)
                 const pagePackage = require(`./website/apis/${folder}/pages/${file}`)
-                app[pagePackage.pageType](`/${folder}/${file.replace(/\.\S+/gmi, "")}/`, function (req, res) {
+                app[pagePackage.pageType](`/${folder}/${pageName}/`, function (req, res) {
                     let isAnS4DUrl = true
                     let bypassedS4DOriginCheck = false
                     const requestOrigin = req.get('origin')
@@ -69,26 +70,44 @@ fs.readdir('./website/apis', async (err, folders) => {
                     })
                 })
                 const documentationMeta = pagePackage.documentation || { "documented": false }
-                app.get(`/apiDocumentation/${folder}/${file.replace(/\.\S+/gmi, "")}/`, function (req, res) {
+                app.get(`/apiDocumentation/${folder}/${pageName}/`, function (req, res) {
                     if (documentationMeta.documented == false) {
                         res.status(404)
                         res.header("Content-Type", 'text/html')
                         res.send(`
-<h1>This endpoint is not documented.</h1>
-<p>The endpoint may be unfinished, unusable by others, or the documentation was just forgotten.</p>
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>469 APIs - ${pageName}</title>
+    </head>
+    <body>
+        <br>
+        <h1>This endpoint is not documented.</h1>
+        <p>The endpoint may be unfinished, unusable by others, or the documentation was just forgotten.</p>
+    </body>
+</html>
 `)
                         return
                     }
                     res.status(200)
                     res.header("Content-Type", 'text/html')
                     res.send(`
-<h1>${folder + " - " + file.replace(/\.\S+/gmi, "")}</h1>
-<p><small>This endpoint uses a <b>${String(pagePackage.pageType).toUpperCase()}</b> request</small></p>
-<br>
-${documentationMeta.html != null ? documentationMeta.html : `<p>${String(documentationMeta.explanation).replaceAll("\n", "<br>")}</p>`}
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>469 APIs - ${pageName}</title>
+    </head>
+    <body>
+        <br>
+        <h1>${folder + " - " + pageName}</h1>
+        <p><small>This endpoint uses a <b>${String(pagePackage.pageType).toUpperCase()}</b> request</small></p>
+        <br>
+        ${documentationMeta.html != null ? documentationMeta.html : `<p>${String(documentationMeta.explanation).replaceAll("\n", "<br>")}</p>`}
+    </body>
+</html>
 `)
                 })
-                console.log("Created documentation page:", `[HOST]/apiDocumentation/${folder}/${file.replace(/\.\S+/gmi, "")}`)
+                console.log("Created documentation page:", `[HOST]/apiDocumentation/${folder}/${pageName}`)
             });
             console.log("Loaded all pages for", folder)
         });
