@@ -81,7 +81,7 @@ module.exports.register = (username, password, thirdParty) => {
     while (module.exports.accountExists(accountID)) {
         accountID = generateID()
     }
-    accounts.set(accountID, {
+    accounts.set(String(accountID), {
         "username": username,
         "password": crypto.AES.encrypt(password, key).toString(),
         "thirdParty": thirdParty, // for third party sign in like discord or github, this will show as the name of the service
