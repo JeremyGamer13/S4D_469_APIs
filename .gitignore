@@ -3,4 +3,7 @@ node_modules
 package.json
 package-lock.json
 replit.nix
+databases
 databases/
+databases/*
+databases/**
