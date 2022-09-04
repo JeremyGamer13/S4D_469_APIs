@@ -39,6 +39,7 @@ const originsAllowed = [
 
 fs.readdir('./website/apis', async (err, folders) => {
     if (err) throw err
+    const foldersUsed = []
     folders.forEach(async folder => {
         apis.push(folder) // add this api to the api list
         const metadata = JSON.parse(fs.readFileSync(`./website/apis/${folder}/metadata.json`))
@@ -134,9 +135,33 @@ fs.readdir('./website/apis', async (err, folders) => {
 </html>
 `)
             })
+            console.log("Created documentation page:", `[HOST]/apiDocumentation/${folder}`)
             console.log("Loaded all pages for", folder)
+            foldersUsed.push(folder)
         });
     });
+    app.get(`/apiDocumentation/`, function (req, res) {
+        res.status(200)
+        res.header("Content-Type", 'text/html')
+        let listString = ""
+        foldersUsed.forEach(folder => {
+            listString += `<a href="https://s4d469apis.scratch4discord.repl.co/apiDocumentation/${folder}/">${folder}</a><br>`
+        })
+        res.send(`
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>469 APIs - Documentation</title>
+    </head>
+    <body>
+        <h1>APIs</h1>
+        <br>
+        ${listString}
+    </body>
+</html>
+`)
+    })
+    console.log("Created documentation page:", `[HOST]/apiDocumentation`)
 });
 
 app.listen(8080);
