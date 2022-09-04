@@ -1,4 +1,5 @@
 const crypto = require("crypto-js");
+const fs = require("fs")
 const database = require("easy-json-database")
 const accounts = new database('./databases/accounts.json')
 const key = process.env.encryptionKey
@@ -66,9 +67,13 @@ module.exports.usernameToID = (username) => {
 module.exports.accountExists = (id) => {
     return accounts.has(String(id))
 }
-module.exports.profileColorURL = (color) => {
-    return 'https://s4d469apis.scratch4discord.repl.co/accounts/profilePictureColor?color=' + color
-}
+const profileColorArray = []
+fs.readdir("./website/assets/profiles", (err, files) => {
+    files.forEach(file => {
+        profileColorArray.push(file.replace(/\.\S*/gmi, ""))
+    })
+    module.exports.allProfileColors = profileColorArray
+})
 module.exports.register = (username, password, thirdParty) => {
     if (username == null || username == "") return { error: "Missing username", errorCode: 400 }
     if (password == null || password == "") return { error: "Missing password", errorCode: 400 }

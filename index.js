@@ -171,10 +171,22 @@ fs.readdir('./website/apis', async (err, folders) => {
 fs.readdir('./website/assets', async (err, files) => {
     if (err) throw err
     files.forEach(async file => {
-        app.get(`/fileAssets/${file}`, function (req, res) {
-            res.status(200)
-            res.sendFile(path.join(__dirname, `website/assets/${file}`))
-        })
+        if (!file.indexOf(".")) {
+            let folder = file
+            fs.readdir('./website/assets/' + folder, async (err, files) => {
+                files.forEach(async file => {
+                    app.get(`/fileAssets/${folder}/${file}`, function (req, res) {
+                        res.status(200)
+                        res.sendFile(path.join(__dirname, `website/assets/${folder}/${file}`))
+                    })
+                })
+            })
+        } else {
+            app.get(`/fileAssets/${file}`, function (req, res) {
+                res.status(200)
+                res.sendFile(path.join(__dirname, `website/assets/${file}`))
+            })
+        }
     })
 })
 
