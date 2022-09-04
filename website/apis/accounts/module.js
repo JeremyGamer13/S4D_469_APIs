@@ -66,6 +66,9 @@ module.exports.usernameToID = (username) => {
 module.exports.accountExists = (id) => {
     return accounts.has(String(id))
 }
+module.exports.profileColorURL = (color) => {
+    return 'https://s4d469apis.scratch4discord.repl.co/accounts/profilePictureColor?color=' + color
+}
 module.exports.register = (username, password, thirdParty) => {
     if (username == null || username == "") return { error: "Missing username", errorCode: 400 }
     if (password == null || password == "") return { error: "Missing password", errorCode: 400 }
