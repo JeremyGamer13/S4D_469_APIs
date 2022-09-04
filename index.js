@@ -86,7 +86,7 @@ fs.readdir('./website/apis', async (err, folders) => {
 <html lang="en-US">
     <head>
         <title>469 APIs - ${pageName}</title>
-        <link rel="icon" type="image/x-icon" href="https://s4d469apis.scratch4discord.repl.co/fileAssets/icon.png">
+        <link rel="icon" type="image/png" href="https://s4d469apis.scratch4discord.repl.co/fileAssets/icon.png">
     </head>
     <body>
         <h1>This endpoint is not documented.</h1>
@@ -103,7 +103,7 @@ fs.readdir('./website/apis', async (err, folders) => {
 <html lang="en-US">
     <head>
         <title>469 APIs - ${pageName}</title>
-        <link rel="icon" type="image/x-icon" href="https://s4d469apis.scratch4discord.repl.co/fileAssets/icon.png">
+        <link rel="icon" type="image/png" href="https://s4d469apis.scratch4discord.repl.co/fileAssets/icon.png">
     </head>
     <body>
         <h1>${folder + " - " + pageName}</h1>
@@ -128,7 +128,7 @@ fs.readdir('./website/apis', async (err, folders) => {
 <html lang="en-US">
     <head>
         <title>469 APIs - ${folder}</title>
-        <link rel="icon" type="image/x-icon" href="https://s4d469apis.scratch4discord.repl.co/fileAssets/icon.png">
+        <link rel="icon" type="image/png" href="https://s4d469apis.scratch4discord.repl.co/fileAssets/icon.png">
     </head>
     <body>
         <h1>${folder}</h1>
@@ -155,7 +155,7 @@ fs.readdir('./website/apis', async (err, folders) => {
 <html lang="en-US">
     <head>
         <title>469 APIs - Documentation</title>
-        <link rel="icon" type="image/x-icon" href="https://s4d469apis.scratch4discord.repl.co/fileAssets/icon.png">
+        <link rel="icon" type="image/png" href="https://s4d469apis.scratch4discord.repl.co/fileAssets/icon.png">
     </head>
     <body>
         <h1>APIs</h1>
