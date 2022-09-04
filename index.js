@@ -129,7 +129,7 @@ fs.readdir('./website/apis', async (err, folders) => {
     <body>
         <h1>${folder}</h1>
         <br>
-        
+        ${listString}
     </body>
 </html>
 `)
