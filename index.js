@@ -118,7 +118,7 @@ fs.readdir('./website/apis', async (err, folders) => {
                 res.header("Content-Type", 'text/html')
                 let listString = ""
                 folderDocumentation.forEach(doc => {
-                    listString += `<a href="https://s4d469apis.scratch4discord.repl.co/${folder}/${doc.name}/"${doc.documented ? "" : " style=\"color:gray\""}>${doc.requestType} ${doc.name} - ${doc.documented ? "Documented" : "Undocumented"}</a><br>`
+                    listString += `<a href="https://s4d469apis.scratch4discord.repl.co/apiDocumentation/${folder}/${doc.name}/"${doc.documented ? "" : " style=\"color:gray\""}>${doc.requestType} ${doc.name} - ${doc.documented ? "Documented" : "Undocumented"}</a><br>`
                 })
                 res.send(`
 <!DOCTYPE html>
