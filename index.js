@@ -173,7 +173,7 @@ fs.readdir('./website/assets', async (err, files) => {
     files.forEach(async file => {
         app.get(`/fileAssets/${file}`, function (req, res) {
             res.status(200)
-            res.sendFile(path.join(__dirname, file))
+            res.sendFile(path.join(__dirname, `website/assets/${file}`))
         })
     })
 })
