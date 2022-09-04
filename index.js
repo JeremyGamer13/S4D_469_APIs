@@ -49,6 +49,7 @@ fs.readdir('./website/apis', async (err, folders) => {
         console.log("Loaded package page for folder", folder)
         fs.readdir(`./website/apis/${folder}/pages`, async (err, files) => {
             if (err) throw err
+            const folderDocumentation = []
             files.forEach(async file => {
                 const pageName = file.replace(/\.\S+/gmi, "")
                 console.log("Creating page:", `[HOST]/${folder}/${pageName}`)
@@ -70,6 +71,11 @@ fs.readdir('./website/apis', async (err, folders) => {
                     })
                 })
                 const documentationMeta = pagePackage.documentation || { "documented": false }
+                folderDocumentation.push({
+                    name: pageName,
+                    documented: documentationMeta.documented,
+                    requestType: String(pagePackage.pageType).toUpperCase()
+                })
                 app.get(`/apiDocumentation/${folder}/${pageName}/`, function (req, res) {
                     if (documentationMeta.documented == false) {
                         res.status(404)
@@ -107,6 +113,27 @@ fs.readdir('./website/apis', async (err, folders) => {
                 })
                 console.log("Created documentation page:", `[HOST]/apiDocumentation/${folder}/${pageName}`)
             });
+            app.get(`/apiDocumentation/${folder}/`, function (req, res) {
+                res.status(200)
+                res.header("Content-Type", 'text/html')
+                let listString = ""
+                folderDocumentation.forEach(doc => {
+                    listString += `<a href="https://s4d469apis.scratch4discord.repl.co/${folder}/${doc.name}/"${doc.documented ? "" : " style=\"color:gray\""}>${doc.requestType} ${doc.name} - ${doc.documented ? "Documented" : "Undocumented"}</a><br>`
+                })
+                res.send(`
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>469 APIs - ${folder}</title>
+    </head>
+    <body>
+        <h1>${folder}</h1>
+        <br>
+        
+    </body>
+</html>
+`)
+            })
             console.log("Loaded all pages for", folder)
         });
     });
