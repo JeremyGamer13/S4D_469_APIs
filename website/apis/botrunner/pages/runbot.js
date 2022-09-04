@@ -14,6 +14,14 @@ module.exports.onPage = async (req, res, origin, isAnS4DUrl, bypassedS4DOriginCh
         return
     }
     */
+    if (res.header("authorization") != process.env.authorizationKey) {
+        res.status(403)
+        res.json({
+            "error": "You are not authorized to do this.",
+            "serverError": false
+        })
+        return
+    }
     if (!(await botrunner.verifyToken(req.header("botToken")))) {
         res.status(400)
         res.json({

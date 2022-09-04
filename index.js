@@ -81,7 +81,6 @@ fs.readdir('./website/apis', async (err, folders) => {
         <title>469 APIs - ${pageName}</title>
     </head>
     <body>
-        <br>
         <h1>This endpoint is not documented.</h1>
         <p>The endpoint may be unfinished, unusable by others, or the documentation was just forgotten.</p>
     </body>
@@ -98,7 +97,6 @@ fs.readdir('./website/apis', async (err, folders) => {
         <title>469 APIs - ${pageName}</title>
     </head>
     <body>
-        <br>
         <h1>${folder + " - " + pageName}</h1>
         <p><small>This endpoint uses a <b>${String(pagePackage.pageType).toUpperCase()}</b> request</small></p>
         <br>
