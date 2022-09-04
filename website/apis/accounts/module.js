@@ -58,6 +58,7 @@ module.exports.forbiddenUsername = (username) => {
 }
 module.exports.usernameToID = (username) => {
     let r = 0
+    console.log(accounts.all(), Object.getOwnPropertyNames(accounts.all()))
     Object.getOwnPropertyNames(accounts.all()).forEach(id => {
         if (accounts.get(id).username == username) r = id
     })
