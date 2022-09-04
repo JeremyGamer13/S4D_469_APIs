@@ -171,7 +171,7 @@ fs.readdir('./website/apis', async (err, folders) => {
 fs.readdir('./website/assets', async (err, files) => {
     if (err) throw err
     files.forEach(async file => {
-        if (!file.indexOf(".")) {
+        if (!(file.includes("."))) {
             let folder = file
             fs.readdir('./website/assets/' + folder, async (err, files) => {
                 files.forEach(async file => {
