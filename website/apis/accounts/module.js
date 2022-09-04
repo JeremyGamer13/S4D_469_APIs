@@ -1,6 +1,6 @@
 const crypto = require("crypto-js");
 const database = require("easy-json-database")
-const accounts = new database('../../../../../databases/accounts.json')
+const accounts = new database('./databases/accounts.json')
 const key = process.env.encryptionKey
 function generateID() {
     return Math.round((Math.random() * 99999999999999) + 10000000000000)
