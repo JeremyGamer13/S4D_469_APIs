@@ -62,15 +62,15 @@ module.exports.isAnEmail = (possibleEmail) => {
 }
 module.exports.usernameToID = (username) => {
     let r = 0
-    accounts.all().forEach(id => {
-        if (accounts.get(String(id)).username == username) r = id
+    accounts.all().forEach(data => {
+        if (accounts.get(String(data.key)).username == username) r = data.key
     })
     return r
 }
 module.exports.emailToID = (email) => {
     let r = 0
-    accounts.all().forEach(id => {
-        if (accounts.get(id).email == email) r = id
+    accounts.all().forEach(data => {
+        if (accounts.get(String(data.key)).email == email) r = data.key
     })
     return r
 }
