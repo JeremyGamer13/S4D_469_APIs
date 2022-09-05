@@ -27,5 +27,5 @@ module.exports.onPage = async (req, res, origin, isAnS4DUrl, bypassedS4DOriginCh
     }
     const saveName = "__" + String(user.username) + "__"
     res.status(200)
-    res.json(storageHandler.load(saveName))
+    res.send(storageHandler.load(saveName))
 }
