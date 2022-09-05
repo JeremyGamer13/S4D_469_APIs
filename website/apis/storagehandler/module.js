@@ -1,4 +1,5 @@
 const jszip = require("jszip")
+const database = require("easy-json-database")
 const storage = new database('./databases/storagehandler.json')
 module.exports.save = (name, content) => {
     const zip = new jszip()
