@@ -63,7 +63,7 @@ module.exports.isAnEmail = (possibleEmail) => {
 module.exports.usernameToID = (username) => {
     let r = 0
     accounts.all().forEach(id => {
-        if (accounts.get(id).username == username) r = id
+        if (accounts.get(String(id)).username == username) r = id
     })
     return r
 }
@@ -118,7 +118,7 @@ module.exports.register = (username, password, thirdParty, ip) => {
     accounts.set(String(accountID), {
         "username": username,
         "password": crypto.AES.encrypt(password, key).toString(),
-        "thirdParty": thirdParty, // for third party sign in like discord or github, this will show as the name of the service
+        "thirdParty": thirdParty == null ? null : thirdParty, // for third party sign in like discord or github, this will show as the name of the service
         "application": false, // for bot accounts
         "email": null, // for password resets
         "displayName": username,
