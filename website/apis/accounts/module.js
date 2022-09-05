@@ -57,12 +57,41 @@ module.exports.forbiddenUsername = (username) => {
     })
     return forbidden
 }
+module.exports.isAnEmail = (possibleEmail) => {
+    return String(possibleEmail).match(/@\S+\.\S+/gmi) ? true : false
+}
 module.exports.usernameToID = (username) => {
     let r = 0
     accounts.all().forEach(id => {
         if (accounts.get(id).username == username) r = id
     })
     return r
+}
+module.exports.emailToID = (email) => {
+    let r = 0
+    accounts.all().forEach(id => {
+        if (accounts.get(id).email == email) r = id
+    })
+    return r
+}
+module.exports.getUserByID = (id) => {
+    return accounts.get(id)
+}
+module.exports.passwordCheck = (user, password) => {
+    return crypto.AES.decrypt(user.password, key).toString(crypto.enc.Utf8) == password
+}
+module.exports.passwordHelper = (detail, password) => {
+    const id = (module.exports.isAnEmail(detail) ? module.exports.emailToID(detail) : module.exports.usernameToID(detail))
+    if (!id) return false
+    return module.exports.passwordCheck(module.exports.getUserByID(id), password)
+}
+module.exports.httpPasswordHelper = (req, res) => {
+    if (!(module.exports.passwordHelper(req.header("email") != null ? req.header("email") : req.header("username"), req.header("password")))) {
+        res.status(403)
+        res.json({ "error": "Failed to validate account details (check /accounts/validateLogin for details)" })
+        return false
+    }
+    return true
 }
 module.exports.accountExists = (id) => {
     return accounts.has(String(id))
@@ -74,7 +103,7 @@ fs.readdir("./website/assets/profiles", (err, files) => {
     })
     module.exports.allProfileColors = profileColorArray
 })
-module.exports.register = (username, password, thirdParty) => {
+module.exports.register = (username, password, thirdParty, ip) => {
     if (username == null || username == "") return { error: "Missing username", errorCode: 400 }
     if (password == null || password == "") return { error: "Missing password", errorCode: 400 }
     if (String(username).length > 30) return { error: "Usernames cannot be longer than 30 characters", errorCode: 400 }
@@ -93,7 +122,8 @@ module.exports.register = (username, password, thirdParty) => {
         "application": false, // for bot accounts
         "email": null, // for password resets
         "displayName": username,
-        "profilePicture": "https://s4d469apis.scratch4discord.repl.co/fileAssets/profiles/yellow.png"
+        "profilePicture": "https://s4d469apis.scratch4discord.repl.co/fileAssets/profiles/yellow.png",
+        "ipLock": ip == null ? null : crypto.AES.encrypt(ip, process.env.masterKey).toString()
     })
     return { id: accountID }
 }
