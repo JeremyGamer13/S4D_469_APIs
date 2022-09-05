@@ -93,7 +93,7 @@ module.exports.register = (username, password, thirdParty) => {
         "application": false, // for bot accounts
         "email": null, // for password resets
         "displayName": username,
-        "profilePicture": module.exports.profileColorURL("yellow")
+        "profilePicture": "https://s4d469apis.scratch4discord.repl.co/fileAssets/profiles/yellow.png"
     })
     return { id: accountID }
 }
