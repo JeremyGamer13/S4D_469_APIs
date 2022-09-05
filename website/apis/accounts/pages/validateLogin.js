@@ -13,19 +13,23 @@ module.exports.onPage = async (req, res, origin, isAnS4DUrl, bypassedS4DOriginCh
     if (username == null && email == null) {
         res.status(400)
         res.json({ error: "No username or email specified" })
+        return
     }
     if (password == null) {
         res.status(400)
         res.json({ error: "No password specified" })
+        return
     }
     if (email && (!(accounts.isAnEmail(email)))) {
         res.status(400)
         res.json({ error: "Email is invalid" })
+        return
     }
     const id = (email == null ? accounts.usernameToID(username) : accounts.emailToID(email))
     if (id == 0 || id == null) {
         res.status(400)
         res.json({ error: "No account found with the username or email" })
+        return
     }
     const user = accounts.getUserByID(id)
     if (user == null) {
@@ -33,16 +37,19 @@ module.exports.onPage = async (req, res, origin, isAnS4DUrl, bypassedS4DOriginCh
         const error = "A server error occurred (User with detail found but User does not exist?)"
         res.json({ error: error })
         console.error(error)
+        return
     }
     if (!accounts.passwordCheck(user, password)) {
         res.status(403)
         res.json({ error: "Incorrect password" })
+        return
     }
     if (!accounts.passwordHelper(email == null ? username : email, password)) {
         res.status(500)
         const error = "A server error occurred (Full validation passed but passwordHelper didn't?)"
         res.json({ error: error })
         console.error(error)
+        return
     }
     res.status(200)
     res.json({ error: null })
