@@ -1,9 +1,9 @@
 const storageHandler = require("../module.js")
 const accounts = require("../../accounts/module.js")
-module.exports.pageType = "put"
+module.exports.pageType = "get"
 module.exports.documentation = {
     "documented": true,
-    "explanation": `Any content inside of the <code>project</code> key in the request's body will be saved (compressed to save space & time) on the server.
+    "explanation": `Returns the latest project savedata for this User.
 Specify a username in the <code>username</code> header (or an email in the <code>email</code> header) and a password in the <code>password</code> header.`
 }
 module.exports.onPage = async (req, res, origin, isAnS4DUrl, bypassedS4DOriginCheck, originIncorrectFunction) => {
@@ -25,8 +25,7 @@ module.exports.onPage = async (req, res, origin, isAnS4DUrl, bypassedS4DOriginCh
         console.error(error)
         return
     }
-    const savingName = "__" + String(user.username) + "__"
-    storageHandler.save(savingName, req.body.project)
+    const saveName = "__" + String(user.username) + "__"
     res.status(200)
-    res.json({ error: null })
+    res.json(storageHandler.load(saveName))
 }
